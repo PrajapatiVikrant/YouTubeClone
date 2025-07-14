@@ -1,31 +1,38 @@
-import Channel from '../models/Channel.js';
+import Channel from '../models/channelModel.js';
 
 // Create a new channel
 export const createChannel = async (req, res) => {
   try {
-    const { channelName, description, channelBanner } = req.body;
+    const { profilePic,channelName,channelBanner,channelDescription } = req.body;
+    console.log(req.body)
     const owner = req.user.id; // from JWTverify middleware
 
     const newChannel = new Channel({
-      channelName,
-      description,
-      channelBanner,
-      owner,
+      channelImage:profilePic,
+      channelName:channelName,
+      description:channelDescription,
+      channelBanner:channelBanner,
+      owner:req.user.id,
     });
 
     await newChannel.save();
 
     res.status(201).json({ message: 'Channel created successfully', channel: newChannel });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to create channel', error: error.message });
+    console.log(error)
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Get all channels
 export const getAllChannels = async (req, res) => {
   try {
-    const channels = await Channel.find().populate('owner', 'name email');
-    res.status(200).json(channels);
+    const channels = await Channel.find({owner:req.user.id}).populate('owner', 'name email');
+    if(channels.length > 0){
+      return res.status(200).json(channels);
+    }
+    return res.status(404).json({message:'Channel not found'})
+  
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch channels', error: error.message });
   }

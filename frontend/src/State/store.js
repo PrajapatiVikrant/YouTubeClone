@@ -1,10 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import Sidbar from "./Slice/Sidebar"
-
+import Sidebar from "./Slice/Sidebar"
+import Channel from "./Slice/Channel"
+import Video from "./Slice/Videos"
+import VideoList from "./Slice/VideoList"
+import IsLogged from "./Slice/IsLogged"
 
 const Store = configureStore({
     reducer:{
-        Sidebar:Sidbar
+        Sidebar,
+        Channel,
+        Video,
+        VideoList,
+        IsLogged
     }
 })
 

@@ -44,9 +44,13 @@ const videoSchema=new mongoose.Schema({
     comments: [
         {
             userId:{
-                type:mongoose.SchemaType.ObjectId,
+                type:mongoose.Schema.Types.ObjectId,
                 ref:"User",
                 required:true,
+            },
+            userName:{
+               type:String,
+               required:true
             },
             text:{
                 type:String,

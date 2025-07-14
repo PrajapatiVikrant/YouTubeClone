@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import SideMenu from "./components/SideMenu"
 import './App.css'
 import Header from './components/Header'
@@ -13,7 +13,7 @@ function App() {
   return (
     <>
     <Header/>
-    <main className='flex border  p-2'>
+    <main className='flex   p-2'>
     {sideBar && <SideMenu/>}
     <Outlet/>
     </main>

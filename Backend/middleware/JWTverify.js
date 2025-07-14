@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import User from '../models/userModel.js'
+import {config} from "dotenv"
+config();
 
-const JWT_SECRET = 'your_jwt_secret'; // or use process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET_KEY; 
 
-const authMiddleware = async (req, res, next) => {
+const JWTverify = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -24,14 +26,11 @@ const authMiddleware = async (req, res, next) => {
       name: user.name,
     };
 
-    // Optionally, add channelId here if the user can have one
-    // const channel = await Channel.findOne({ owner: user._id });
-    // if (channel) req.user.channelId = channel._id;
-
+   
     next();
   } catch (error) {
     res.status(401).json({ message: 'Unauthorized', error: error.message });
   }
 };
 
-export default authMiddleware;
+export default JWTverify;

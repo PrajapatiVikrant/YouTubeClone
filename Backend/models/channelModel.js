@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 
 const channelSchema=new mongoose.Schema({
+    channelImage:{
+      type:String,
+      required:true
+    },
     channelName:{
         type:String,
+        unique:true,
         required:true
     },
     owner:{
@@ -21,7 +26,7 @@ const channelSchema=new mongoose.Schema({
     subscribers:{
         type:Number,
         default:0
-    },
+    }
     
 
 })

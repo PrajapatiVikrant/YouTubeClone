@@ -1,9 +1,56 @@
-import react from "react"
+import axios from "axios"
+import react, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import VideoCard from "../components/VideoCard";
+import FilterMenu from "../components/FilterMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { videoListMethod } from "../State/Slice/VideoList";
 
-export default function Welcome(){
+export default function Welcome() {
+   
+    const videos = useSelector(state=>state.VideoList)
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        getVideos()
+    },[])
+    async function getVideos() {
+        try {
+            const token = localStorage.getItem('token')
+            const videos = await axios.get(`http://localhost:4000/api/video`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+           
+            console.log(videos)
+            dispatch(videoListMethod(videos.data))
+           
+        } catch (error) {
+            navigate('/login')
+            console.log(error.message)
+        }
+    }
+   
+   async function selectCategory(category){
+     const token = localStorage.getItem('token')
+       const res = await axios.get(`http://localhost:4000/api/video/category/${category}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+
+           dispatch(videoListMethod(res.data))
+        
+
+   }
+
     return (
-        <section className="flex justify-center items-center w-full h-[97vh]">
-           <h1 className="text-5xl">Welcome to LearnTube</h1>
+        <div className=" w-full flex items-center flex-col">
+        <FilterMenu allVideos={getVideos} selectCategory={selectCategory}/>
+        <section className="grid  grid-cols-3 gap-5  w-full h-[97vh]">
+              {videos.map(video=><VideoCard key={video._id} video={video} />)}       
         </section>
+        </div>
     )
 }

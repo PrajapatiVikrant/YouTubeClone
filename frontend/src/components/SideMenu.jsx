@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function SideMenu({ onClose }) {
   return (
-    <div className=" w-64  h-[97vh] bg-white shadow-md  overflow-y-auto">
+    <div className=" w-64  h-[97vh] fixed md:static bg-white shadow-md  overflow-y-auto">
         <br /><br />
     
 
@@ -22,7 +22,9 @@ export default function SideMenu({ onClose }) {
         <hr />
 
         <ul className="space-y-3">
+          <Link to='/mychannel'>
           <MenuItem icon={<User2 />} label="Your Channel" />
+          </Link>
           <MenuItem icon={<Clock />} label="History" />
           <MenuItem icon={<Video />} label="Your Videos" />
           <MenuItem icon={<ThumbsUp />} label="Liked Videos" />

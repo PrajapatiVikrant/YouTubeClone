@@ -1,32 +1,41 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [logging, setLogging] = useState(false)
+  const navigate = useNavigate()
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
-    if (formData.password !== formData.confirmPassword) {
+    if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
+    setLogging(true);
+    const response = await axios.post('http://localhost:4000/api/auth/signup', {
+      name,
+      email,
+      password,
+    });
+    if (response.status != "201") {
+      alert(response.data.message)
+    }
+    setLogging(false)
+     localStorage.setItem('userId',response.data.user.id)
+    localStorage.setItem('name',response.data.user.name)
+    localStorage.setItem('email',response.data.user.email)
+    localStorage.setItem('token', response.data.token)
+    navigate('/')
 
-    // Call your signup API here
-    console.log("Signup Data:", formData);
+
   };
 
   return (
@@ -46,8 +55,8 @@ export default function Signup() {
               id="name"
               name="name"
               required
-              value={formData.name}
-              onChange={handleChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="John Doe"
             />
@@ -63,8 +72,8 @@ export default function Signup() {
               id="email"
               name="email"
               required
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="example@email.com"
             />
@@ -80,8 +89,8 @@ export default function Signup() {
               id="password"
               name="password"
               required
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="••••••••"
             />
@@ -97,8 +106,8 @@ export default function Signup() {
               id="confirmPassword"
               name="confirmPassword"
               required
-              value={formData.confirmPassword}
-              onChange={handleChange}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="••••••••"
             />
@@ -107,9 +116,10 @@ export default function Signup() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200"
+            disabled={logging}
+            className={`w-full ${logging ? 'bg-purple-400' : 'bg-purple-600'}  text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200`}
           >
-            Sign Up
+            {logging ? 'Loading...' : 'Sign Up'}
           </button>
         </form>
 

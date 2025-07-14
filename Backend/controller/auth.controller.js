@@ -1,4 +1,4 @@
-import User from '../models/User.js';
+import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import {config} from "dotenv"
@@ -10,6 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET_KEY;
 export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    console.log(name,email,password)
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -25,7 +26,7 @@ export const signup = async (req, res) => {
     // Generate token
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-    res.status(201).json({ message: 'User created successfully', user: { name: user.name, email: user.email }, token });
+    res.status(201).json({ message: 'User created successfully', user: {id:user.id, name: user.name, email: user.email }, token });
   } catch (error) {
     res.status(500).json({ message: 'Signup failed', error: error.message });
   }
@@ -47,7 +48,7 @@ export const login = async (req, res) => {
     // Generate token
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-    res.status(200).json({ message: 'Login successful', user: { name: user.name, email: user.email }, token });
+    res.status(200).json({ message: 'Login successful', user: {id:user.id, name: user.name, email: user.email }, token });
   } catch (error) {
     res.status(500).json({ message: 'Login failed', error: error.message });
   }

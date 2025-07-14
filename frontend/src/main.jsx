@@ -8,6 +8,11 @@ import Welcome from './page/Welcome.jsx'
 import Login from './page/Login.jsx'
 import Store from './State/store.js'
 import Signup from './page/Signupt.jsx'
+import CreateChannel from './page/CreateChannel.jsx'
+import ChannelPage from './page/ChannelPage.jsx'
+import MyChannelPage from './page/MyChannelPage.jsx'
+import UploadVideoPage from './page/UploadVideoPage.jsx'
+import VideoPage from './page/VideoPage.jsx'
 
 
 
@@ -29,6 +34,26 @@ const appRouter = createBrowserRouter([
       {
         path:"/signup",
         element:<Signup/>
+      },
+      {
+        path:'/createchannel',
+        element:<CreateChannel/>
+      },
+      {
+        path:'/mychannel',
+        element:<MyChannelPage/>
+      },
+      {
+         path:"/uploadvideo",
+         element:<UploadVideoPage/>
+      },
+      {
+        path:'/channel',
+        element:<ChannelPage/>
+      },
+      {
+        path:'/video',
+        element:<VideoPage/>
       }
     ]
   }

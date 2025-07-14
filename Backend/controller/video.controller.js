@@ -1,5 +1,5 @@
-import Video from '../models/Video.js';
-import Channel from '../models/Channel.js';
+import Video from '../models/videoModel.js';
+import Channel from '../models/channelModel.js';
 
 // Upload a new video
 export const uploadVideo = async (req, res) => {
@@ -10,9 +10,11 @@ export const uploadVideo = async (req, res) => {
       videoUrl,
       description,
       category,
+      channel
     } = req.body;
+    console.log(req.body)
 
-    const channelId = req.user.channelId; // assumes auth middleware sets channelId
+    
 
     const newVideo = new Video({
       title,
@@ -20,12 +22,13 @@ export const uploadVideo = async (req, res) => {
       videoUrl,
       description,
       category,
-      channel: channelId,
+      channel,
     });
 
     await newVideo.save();
     res.status(201).json({ message: 'Video uploaded successfully', video: newVideo });
   } catch (error) {
+    console.log(error.message)
     res.status(500).json({ message: 'Video upload failed', error: error.message });
   }
 };
@@ -33,10 +36,7 @@ export const uploadVideo = async (req, res) => {
 // Get all videos
 export const getAllVideos = async (req, res) => {
   try {
-    const videos = await Video.find()
-      .populate('channel', 'channelName')
-      .sort({ createdAt: -1 });
-
+    const videos = await Video.find({});
     res.status(200).json(videos);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch videos', error: error.message });
@@ -46,9 +46,20 @@ export const getAllVideos = async (req, res) => {
 // Get video by ID
 export const getVideoById = async (req, res) => {
   try {
-    const video = await Video.findById(req.params.id).populate('channel', 'channelName');
+    const video = await Video.find({channel:req.params.id});
 
-    if (!video) return res.status(404).json({ message: 'Video not found' });
+   
+
+    res.status(200).json(video);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch video', error: error.message });
+  }
+};
+export const getVideoByCategory = async (req, res) => {
+  try {
+    const video = await Video.find({category:req.params.category});
+
+   
 
     res.status(200).json(video);
   } catch (error) {
@@ -56,22 +67,41 @@ export const getVideoById = async (req, res) => {
   }
 };
 
+
+// Search videos by title
+export const searchVideosByTitle = async (req, res) => {
+  console.log(req.query)
+  try {
+    const { title } = req.query;
+
+    if (!title) {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+
+    // Case-insensitive partial match
+    const videos = await Video.find({
+      title: { $regex: title, $options: "i" }
+    });
+
+    res.status(200).json(videos);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Failed to search videos", error: error.message });
+  }
+};
+
+
 // Update a video
 export const updateVideo = async (req, res) => {
   try {
     const video = await Video.findById(req.params.id);
 
     if (!video) return res.status(404).json({ message: 'Video not found' });
-
-    const channelId = req.user.channelId;
-    if (video.channel.toString() !== channelId)
-      return res.status(403).json({ message: 'Unauthorized to update this video' });
-
     const updatedVideo = await Video.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-
-    res.status(200).json({ message: 'Video updated', video: updatedVideo });
+    const updatedList = await Video.find({});
+    res.status(200).json({ message: 'Video updated', videos: updatedList });
   } catch (error) {
     res.status(500).json({ message: 'Failed to update video', error: error.message });
   }
@@ -83,10 +113,7 @@ export const deleteVideo = async (req, res) => {
     const video = await Video.findById(req.params.id);
 
     if (!video) return res.status(404).json({ message: 'Video not found' });
-
-    const channelId = req.user.channelId;
-    if (video.channel.toString() !== channelId)
-      return res.status(403).json({ message: 'Unauthorized to delete this video' });
+   
 
     await Video.findByIdAndDelete(req.params.id);
 

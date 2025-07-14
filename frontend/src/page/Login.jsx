@@ -1,14 +1,39 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"
+import { useDispatch } from "react-redux";
+import { loginMethod } from "../State/Slice/IsLogged";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
+  const [logging,setLogging] = useState(false)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // handle login logic here
-    console.log("Email:", email, "Password:", password);
+  try {
+    setLogging(true)
+    const response = await axios.post('http://localhost:4000/api/auth/login', {
+      email,
+      password,
+    });
+   
+    if(response.status!="200"){
+      alert(response.data.message)
+    }
+    setLogging(false)
+    localStorage.setItem('userId',response.data.user.id)
+    localStorage.setItem('name',response.data.user.name)
+    localStorage.setItem('email',response.data.user.email)
+   
+    localStorage.setItem('token',response.data.token)
+     dispatch(loginMethod(true));
+    navigate('/')
+  } catch (error) {
+    setLogging(false)
+    alert(error.response?.data?.message || error.message)
+    console.error("Login Failed:", error.response?.data?.message || error.message);
+  }
   };
 
   return (
@@ -53,9 +78,10 @@ export default function Login() {
         
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200"
+            disabled={logging}
+            className={`w-full ${logging?'bg-purple-400':'bg-purple-600'}  text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200`}
           >
-            Login
+            {logging?'Loading...':'Login'} 
           </button>
         </form>
 
