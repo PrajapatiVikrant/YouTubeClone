@@ -5,7 +5,7 @@ export const createChannel = async (req, res) => {
   try {
     const { profilePic,channelName,channelBanner,channelDescription } = req.body;
     console.log(req.body)
-    const owner = req.user.id; // from JWTverify middleware
+    const owner = req.user.id; 
 
     const newChannel = new Channel({
       channelImage:profilePic,
@@ -31,10 +31,10 @@ export const getAllChannels = async (req, res) => {
     if(channels.length > 0){
       return res.status(200).json(channels);
     }
-    return res.status(404).json({message:'Channel not found'})
+    return res.json({message:'Channel not found'})
   
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch channels', error: error.message });
+    res.json({ message: 'Failed to fetch channels', error: error.message });
   }
 };
 

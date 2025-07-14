@@ -54,6 +54,7 @@ export default function Header() {
       });
       console.log(res)
       dispatch(videoListMethod(res.data))
+      navigate('/')
     } catch (error) {
       console.log(error.message)
       navigate('/login')
@@ -110,7 +111,7 @@ export default function Header() {
             </button>
           </Link>
         ) : (
-          <UserDropdown userName="Vikrant Prajapati" />
+          <UserDropdown userName={localStorage.getItem('name')} />
         )}
       </div>
 

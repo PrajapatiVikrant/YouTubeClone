@@ -23,7 +23,7 @@ const UploadVideoPage = () => {
         console.log(res.data)
         setMyChannels(res.data || []);
       } catch (err) {
-        navigate('/login')
+       alert(err.message)
         console.error("Failed to load channels:", err.response?.data || err.message);
       }
     };
@@ -79,6 +79,7 @@ const UploadVideoPage = () => {
             <input
               type="text"
               value={title}
+              
               onChange={(e) => setTitle(e.target.value)}
               className="w-full border px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-red-500"
               required
@@ -91,6 +92,7 @@ const UploadVideoPage = () => {
             <input
               type="url"
               value={thumbnailUrl}
+              placeholder="https://www.youtube.com/embed/channelId"
               onChange={(e) => setThumbnailUrl(e.target.value)}
               className="w-full border px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-red-500"
               required
