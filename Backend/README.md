@@ -1,22 +1,22 @@
-# 🎬 YouTube Clone - Backend
+#  YouTube Clone - Backend
 
 This is the backend of a YouTube Clone application built using **Node.js**, **Express.js**, and **MongoDB**. It provides RESTful APIs for user authentication, video management, comment handling, and channel operations.
 
 
 ---
 
-## 🚀 Features
+##  Features
 
-- 🔐 JWT-based user authentication
-- 📺 Video upload, update, delete, and fetch
-- 💬 Comment add/edit/delete on videos
-- 📡 Channel creation and channel-specific video listing
-- 🔍 Search by video title and category filtering
+-  JWT-based user authentication
+-  Video upload, update, delete, and fetch
+-  Comment add/edit/delete on videos
+-  Channel creation and channel-specific video listing
+-  Search by video title and category filtering
 - Secure routes with middleware
 
 ---
 
-## ⚙️ Tech Stack
+##  Tech Stack
 
 - Node.js
 - Express.js
