@@ -79,7 +79,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={logging}
-            className={`w-full ${logging?'bg-purple-400':'bg-purple-600'}  text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200`}
+            className={`w-full ${logging?'bg-purple-400':'bg-purple-600'} cursor-pointer text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200`}
           >
             {logging?'Loading...':'Login'} 
           </button>

@@ -7,6 +7,7 @@ const Video =  createSlice({
     reducers:{
         videosMethod:(state,action)=>{
             state = action.payload
+            console.log(action.payload)
             return state
         }
     }

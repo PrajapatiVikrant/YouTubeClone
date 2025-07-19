@@ -1,12 +1,69 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 📺 YouTube Clone - Frontend
 
-Currently, two official plugins are available:
+This is the frontend of a YouTube Clone built using **React.js**. It connects with the backend APIs and offers a full-featured video browsing experience similar to YouTube.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🎯 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🏠 Home Page
+  - Header with search bar & sign-in button
+  - Toggleable sidebar
+  - Grid layout for video thumbnails
+  - Category filter buttons
+
+- 🔐 User Authentication
+  - Sign in & register via Google Form
+  - After login, show username in header
+  - JWT stored in localStorage
+
+- 🔍 Search & Filter
+  - Search videos by title
+  - Filter videos by category
+
+- ▶️ Video Player Page
+  - Video player
+  - Title, description, likes/dislikes
+  - Add/edit/delete comments
+
+- 📡 Channel Page
+  - Create/manage channel
+  - Upload/edit/delete videos
+
+- 📱 Responsive Design
+  - Mobile, tablet, and desktop layouts supported
+
+---
+
+
+## ⚙️ Tech Stack
+
+- React.js
+- React Router DOM
+- Axios
+- Tailwind CSS (or your chosen CSS framework)
+- LocalStorage for token management
+
+---
+
+## 🛠️ Installation & Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/PrajapatiVikrant/YouTubeClone.git
+cd YouTubeClone
+cd frontend
+npm install
+npm run dev
+```
+2. Download zip file
+- write click on project folder
+- click on extract here
+- open with vs code
+```bash
+cd YouTubeClone
+cd frontend
+npm install
+npm run dev
+

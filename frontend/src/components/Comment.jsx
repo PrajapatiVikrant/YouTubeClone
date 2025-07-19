@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CommentMessage from "./CommentMessage";
 import { deleteComment } from "../../../Backend/controller/comment.controller";
 
@@ -8,7 +8,11 @@ export default function Comment({ comments, videoId }) {
   const [commentMessage, setCommentMessage] = useState('');
 
   const [loading, setLoading] = useState(false);
+   useEffect(()=>{
+   setCommentData(comments);
+   },[comments]);
 
+   
 
 
 

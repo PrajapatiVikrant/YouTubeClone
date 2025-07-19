@@ -21,7 +21,7 @@ const UploadVideoPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log(res.data)
-        setMyChannels(res.data || []);
+        setMyChannels((res.data));
       } catch (err) {
        alert(err.message)
         console.error("Failed to load channels:", err.response?.data || err.message);

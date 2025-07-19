@@ -46,8 +46,22 @@ export const getAllVideos = async (req, res) => {
 // Get video by ID
 export const getVideoById = async (req, res) => {
   try {
-    const video = await Video.find({channel:req.params.id});
+    console.log(req.params.id)
+    const video = await Video.findOne({_id:req.params.id});
+    console.log(video)
+   
 
+    res.status(200).json(video);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch video', error: error.message });
+  }
+};
+// Get video by channel ID
+export const getVideoByChannelId = async (req, res) => {
+  try {
+    console.log(req.params.channelId)
+    const video = await Video.find({channel:req.params.channelId});
+    console.log(video)
    
 
     res.status(200).json(video);

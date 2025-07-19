@@ -9,10 +9,10 @@ const VideoCard = ({ video }) => {
   const navigate = useNavigate();
   function handleVideo(){
        dispatch(videosMethod(video));
-       navigate('/video');
+       navigate(`/video/${video._id}`);
   }
   return (
-    <div onClick={handleVideo} className="bg-white cursor-pointer rounded-xl h-fit shadow hover:shadow-md transition overflow-hidden">
+    <div onClick={handleVideo} className="bg-white w-[300px] md:w-[350px] cursor-pointer rounded-xl h-fit shadow hover:shadow-md transition overflow-hidden">
       <img
         src={video.thumbnailUrl}
         alt={video.title}

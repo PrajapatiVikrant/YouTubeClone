@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
@@ -9,6 +10,7 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [logging, setLogging] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
 
   const handleSubmit = async (e) => {
@@ -29,10 +31,11 @@ export default function Signup() {
       alert(response.data.message)
     }
     setLogging(false)
-     localStorage.setItem('userId',response.data.user.id)
-    localStorage.setItem('name',response.data.user.name)
-    localStorage.setItem('email',response.data.user.email)
+    localStorage.setItem('userId', response.data.user.id)
+    localStorage.setItem('name', response.data.user.name)
+    localStorage.setItem('email', response.data.user.email)
     localStorage.setItem('token', response.data.token)
+    dispatch(loginMethod(true));
     navigate('/')
 
 
@@ -117,7 +120,7 @@ export default function Signup() {
           <button
             type="submit"
             disabled={logging}
-            className={`w-full ${logging ? 'bg-purple-400' : 'bg-purple-600'}  text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200`}
+            className={`w-full ${logging ? 'bg-purple-400' : 'bg-purple-600'} cursor-pointer text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200`}
           >
             {logging ? 'Loading...' : 'Sign Up'}
           </button>

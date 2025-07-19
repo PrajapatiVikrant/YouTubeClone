@@ -48,7 +48,7 @@ export default function Welcome() {
     return (
         <div className=" w-full h-[97vh] overflow-auto flex items-center flex-col">
         <FilterMenu allVideos={getVideos} selectCategory={selectCategory}/>
-        <section className="flex flex-wrap md:grid  md:grid-cols-3 gap-5  w-full overflow-auto h-[97vh]">
+        <section className="flex relative top-3.5 flex-wrap md:grid  md:grid-cols-3 gap-5  w-full ">
               {videos.map(video=><VideoCard key={video._id} video={video} />)}       
         </section>
         </div>

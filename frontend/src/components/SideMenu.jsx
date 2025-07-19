@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function SideMenu({ onClose }) {
   return (
-    <div className=" w-64  h-[97vh] fixed md:static bg-white shadow-md  overflow-y-auto">
+    <div className=" w-64  h-[97vh] fixed z-30 md:static bg-white shadow-md  overflow-y-auto">
         <br /><br />
     
 

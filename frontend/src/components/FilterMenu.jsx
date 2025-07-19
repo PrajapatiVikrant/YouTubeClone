@@ -12,7 +12,7 @@ const FilterMenu = ({allVideos,selectCategory}) => {
       }
   }
   return (
-    <div className="flex w-fit space-x-3 overflow-x-auto px-4 py-2 ">
+    <div className="flex w-fit space-x-3  px-4 py-2 ">
       {categories.map((category) => (
         <button
           key={category}

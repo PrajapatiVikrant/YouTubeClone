@@ -48,11 +48,11 @@ const appRouter = createBrowserRouter([
          element:<UploadVideoPage/>
       },
       {
-        path:'/channel',
+        path:'/channel/:id',
         element:<ChannelPage/>
       },
       {
-        path:'/video',
+        path:'/video/:id',
         element:<VideoPage/>
       }
     ]

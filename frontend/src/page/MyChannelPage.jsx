@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { channelMethod } from "../State/Slice/Channel";
+
 import { Link, useNavigate } from "react-router-dom";
 
 const MyChannelPage = () => {
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+ 
   const navigate = useNavigate();
 
  
@@ -36,8 +35,8 @@ const MyChannelPage = () => {
   }, []);
 
   function handleChannel(channel) {
-    dispatch(channelMethod(channel))
-    navigate('/channel')
+  
+    navigate(`/channel/${channel._id}`)
   }
 
   return (

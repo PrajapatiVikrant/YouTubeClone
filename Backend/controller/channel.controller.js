@@ -31,7 +31,7 @@ export const getAllChannels = async (req, res) => {
     if(channels.length > 0){
       return res.status(200).json(channels);
     }
-    return res.json({message:'Channel not found'})
+    return res.json([])
   
   } catch (error) {
     res.json({ message: 'Failed to fetch channels', error: error.message });

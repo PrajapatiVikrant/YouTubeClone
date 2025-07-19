@@ -65,7 +65,7 @@ export default function Header() {
     <header className="w-full bg-white shadow-md px-4 py-2 flex items-center justify-between sticky top-0 z-50">
       {/* Left Side */}
       <div className="flex items-center gap-4">
-        <button onClick={() => dispatch(sidbarMethod(!sideBar))}>
+        <button className="cursor-pointer" onClick={() => dispatch(sidbarMethod(!sideBar))}>
           <Menu className="w-6 h-6" />
         </button>
         YOUTUBE
@@ -82,7 +82,7 @@ export default function Header() {
         />
         <button
           onClick={handleSearch}
-          className="bg-gray-200 px-4 py-2 rounded-r-full hover:bg-gray-300"
+          className="bg-gray-200 px-4 py-2 cursor-pointer rounded-r-full hover:bg-gray-300"
         >
           <Search className="w-5 h-5 text-gray-600" />
         </button>
@@ -106,7 +106,7 @@ export default function Header() {
 
         {!isLogged ? (
           <Link to="/login">
-            <button className="text-sm bg-blue-600 text-white px-3 py-1 rounded-xl hover:bg-blue-500">
+            <button className="text-sm bg-blue-600 cursor-pointer text-white px-3 py-1 rounded-xl hover:bg-blue-500">
               Sign In
             </button>
           </Link>
