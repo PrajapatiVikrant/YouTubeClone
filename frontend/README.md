@@ -1,19 +1,19 @@
 
-# 📺 YouTube Clone - Frontend
+#  YouTube Clone - Frontend
 
 This is the frontend of a YouTube Clone built using **React.js**. It connects with the backend APIs and offers a full-featured video browsing experience similar to YouTube.
 
 ---
 
-## 🎯 Features
+##  Features
 
-- 🏠 Home Page
+-  Home Page
   - Header with search bar & sign-in button
   - Toggleable sidebar
   - Grid layout for video thumbnails
   - Category filter buttons
 
-- 🔐 User Authentication
+-  User Authentication
   - Sign in & register via Google Form
   - After login, show username in header
   - JWT stored in localStorage
@@ -22,22 +22,22 @@ This is the frontend of a YouTube Clone built using **React.js**. It connects wi
   - Search videos by title
   - Filter videos by category
 
-- ▶️ Video Player Page
+-  Video Player Page
   - Video player
   - Title, description, likes/dislikes
   - Add/edit/delete comments
 
-- 📡 Channel Page
+-  Channel Page
   - Create/manage channel
   - Upload/edit/delete videos
 
-- 📱 Responsive Design
+-  Responsive Design
   - Mobile, tablet, and desktop layouts supported
 
 ---
 
 
-## ⚙️ Tech Stack
+##  Tech Stack
 
 - React.js
 - React Router DOM
@@ -47,7 +47,7 @@ This is the frontend of a YouTube Clone built using **React.js**. It connects wi
 
 ---
 
-## 🛠️ Installation & Setup
+##  Installation & Setup
 
 1. Clone the repository:
 ```bash
