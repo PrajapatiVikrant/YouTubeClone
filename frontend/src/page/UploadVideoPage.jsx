@@ -1,178 +1,165 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Loader2, Sparkles } from "lucide-react";
 
-const UploadVideoPage = () => {
+export default function UploadVideoPage() {
   const [title, setTitle] = useState("");
-  const [thumbnailUrl, setThumbnailUrl] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [channelId, setChannelId] = useState("");
-  const [myChannels, setMyChannels] = useState([]);
-  const navigate = useNavigate();
+  const [tags, setTags] = useState("");
+  const [video, setVideo] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
 
-  // ✅ Fetch user's channels on load
-  useEffect(() => {
-    const fetchChannels = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:4000/api/channel", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        console.log(res.data)
-        setMyChannels((res.data));
-      } catch (err) {
-       alert(err.message)
-        console.error("Failed to load channels:", err.response?.data || err.message);
-      }
-    };
-
-    fetchChannels();
-  }, []);
-
-  const handleSubmit = async (e) => {
+  const handleUpload = async (e) => {
     e.preventDefault();
+    if (!video) {
+      alert("Please upload a video file.");
+      return;
+    }
 
-    const videoData = {
-      title,
-      thumbnailUrl,
-      videoUrl,
-      description,
-      category,
-      channel: channelId,
-    };
+    const formData = new FormData();
+    formData.append("video", video);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("tags", tags);
 
+    setLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:4000/api/video", videoData, {
+      await axios.post("/api/videos/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("Video uploaded successfully!");
+      setTitle("");
+      setDescription("");
+      setTags("");
+      setVideo(null);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to upload video.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAiSuggest = async () => {
+    if (!title && !description) {
+      alert("Enter at least title or description to get AI suggestions.");
+      return;
+    }
+    const token = localStorage.getItem("token");
+    setAiLoading(true);
+    try {
+      const res = await axios.post("http://localhost:4000/api/suggest/video", {
+        title,
+        description,
+        tags,
+      }, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
       });
 
-      console.log("✅ Video Uploaded:", res.data);
-      alert("Video uploaded successfully!");
-      // Clear form
-      setTitle("");
-      setThumbnailUrl("");
-      setVideoUrl("");
-      setDescription("");
-      setCategory("");
-      setChannelId("");
+      if (res.data.generated) {
+        const aiResponse = res.data.generated
+        const cleaned = aiResponse
+          .replace(/```json\s*/i, "")  // remove opening ```json
+          .replace(/```/g, "")         // remove closing ```
+          .trim();
+       const jsonResponse = JSON.parse(cleaned);
+       setTitle(jsonResponse.title)
+        setDescription(jsonResponse.description);
+      }
     } catch (err) {
-      console.error("❌ Upload Failed:", err.response?.data || err.message);
-      alert("Failed to upload video.");
+      console.error(err);
+      alert("AI suggestion failed.");
+    } finally {
+      setAiLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-100 p-6 flex justify-center items-center">
-      <div className="bg-white rounded-xl shadow-md p-6 w-full max-w-2xl">
-        <h2 className="text-2xl font-bold text-center text-red-600 mb-6">Upload New Video</h2>
+    <div className="min-h-screen w-full bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl bg-white shadow-2xl rounded-2xl p-8 space-y-6">
+        <h1 className="text-3xl font-bold text-gray-800 text-center">
+          Upload Your Video 🎥
+        </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleUpload} className="space-y-5">
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium mb-1">Title</label>
+            <label className="block text-gray-700 font-medium">Title</label>
             <input
               type="text"
+              placeholder="Enter video title"
               value={title}
-              
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full border px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-red-500"
-              required
-            />
-          </div>
-
-          {/* Thumbnail URL */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Thumbnail URL</label>
-            <input
-              type="url"
-              value={thumbnailUrl}
-              placeholder="https://www.youtube.com/embed/channelId"
-              onChange={(e) => setThumbnailUrl(e.target.value)}
-              className="w-full border px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-red-500"
-              required
-            />
-          </div>
-
-          {/* Video URL */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Video URL</label>
-            <input
-              type="url"
-              value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
-              className="w-full border px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-red-500"
-              required
+              className="w-full p-3 border rounded-xl mt-1 focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
           {/* Description */}
+          <div className="flex justify-between items-center">
+            <label className="block text-gray-700 font-medium">Description</label>
+            <button
+              type="button"
+              onClick={handleAiSuggest}
+              disabled={aiLoading}
+              className="flex cursor-pointer items-center gap-2 text-indigo-600 hover:text-indigo-800 font-semibold"
+            >
+              <Sparkles className="w-5 h-5" />
+              {aiLoading ? "Generating..." : "Suggest with AI"}
+            </button>
+          </div>
+
+          <textarea
+            placeholder="Enter video description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-3 border rounded-xl mt-1 h-32 focus:ring-2 focus:ring-indigo-500 resize-none"
+          ></textarea>
+
+          {/* Tags */}
           <div>
-            <label className="block text-sm font-medium mb-1">Description</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full border px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-red-500"
-              rows={4}
+            <label className="block text-gray-700 font-medium">Tags</label>
+            <input
+              type="text"
+              placeholder="e.g. tech, coding, javascript"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              className="w-full p-3 border rounded-xl mt-1 focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
-          {/* Category Select */}
+          {/* Video Upload */}
           <div>
-            <label className="block text-sm font-medium mb-1">Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full border px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-red-500"
-              required
-            >
-              <option value="">-- Select a category --</option>
-              <option value="Bhajan">Bhajan</option>
-              <option value="Education">Education</option>
-              <option value="Exercise">Exercise</option>
-            </select>
+            <label className="block text-gray-700 font-medium">Upload Video</label>
+            <input
+              type="file"
+              accept="video/*"
+              onChange={(e) => setVideo(e.target.files?.[0] || null)}
+              className="w-full mt-1"
+            />
           </div>
 
-
-          {/* Channel Select */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Select Channel</label>
-
-            <select
-              value={channelId}
-              onChange={(e) => {
-                setChannelId(e.target.value);
-                console.log("Selected:", e.target.value); // ✅ Debug
-              }}
-              className="w-full border px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-red-500"
-              required
-            >
-              <option value="">-- Select a channel --</option> {/* ✅ This line is must */}
-              {myChannels.map((ch) => (
-                <option key={ch._id} value={ch._id}>
-                  {ch.channelName}
-                </option>
-              ))}
-            </select>
-
-          </div>
-
-          {/* Submit */}
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-red-600 text-white py-2 rounded-md font-semibold hover:bg-red-700 transition duration-200"
+            disabled={loading}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl flex justify-center items-center"
           >
-            Upload Video
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin w-5 h-5 mr-2" />
+                Uploading...
+              </>
+            ) : (
+              "Upload Video"
+            )}
           </button>
         </form>
       </div>
     </div>
   );
-};
-
-export default UploadVideoPage;
+}

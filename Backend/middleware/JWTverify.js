@@ -6,9 +6,10 @@ config();
 const JWT_SECRET = process.env.JWT_SECRET_KEY; 
 
 const JWTverify = async (req, res, next) => {
+  console.log("middleware")
   try {
     const authHeader = req.headers.authorization;
-
+   console.log(authHeader)
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ message: 'No token provided' });
     }
@@ -25,7 +26,7 @@ const JWTverify = async (req, res, next) => {
       email: user.email,
       name: user.name,
     };
-
+    console.log(decoded)
    
     next();
   } catch (error) {

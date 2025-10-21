@@ -7,6 +7,7 @@ import auth from "./route/auth.route.js"
 import video from "./route/video.route.js"
 import comment from "./route/comment.route.js"
 import channel from "./route/channel.route.js"
+import suggest from "./route/ai.router.js"
 import JWTverify from "./middleware/JWTverify.js";
 
 config();
@@ -19,10 +20,16 @@ const port = process.env.PORT || 3000
 app.get('/isLogin',JWTverify,(req,res)=>{
     res.status(200).json(req.user);
 })
+
 app.use('/api/auth',auth)
 app.use('/api/video',video)
 app.use('/api/comment',comment)
 app.use('/api/channel',channel)
+app.use('/api/suggest',suggest)
+
+
+
+
 
 
 
