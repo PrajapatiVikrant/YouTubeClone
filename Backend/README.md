@@ -8,7 +8,7 @@ It provides RESTful APIs for user authentication, video management, comment hand
 ## 🌐 Live API Endpoint
 
 - Backend deployed at: `https://youtube-backend-lovat.vercel.app`  
-*(Replace with your actual live link if different)*
+
 
 ---
 
