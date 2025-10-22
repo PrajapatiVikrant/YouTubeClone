@@ -7,7 +7,7 @@ Recently, **AI-powered features** have been integrated to automatically generate
 
 ## 🌐 Live Demo
 
-- Live Site:https://youtubefrontend-tau.vercel.app
+- [Live Site](https://youtubefrontend-tau.vercel.app)
 - [Project Demo Video](VIDEO_LINK_HERE)
 
 ---
