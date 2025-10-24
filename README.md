@@ -10,7 +10,7 @@ It provides a complete video platform with user authentication, video management
 - **Frontend (Live Demo):** [YouTube Clone Frontend](https://youtubefrontend-tau.vercel.app)  
 - **Backend (API):** [YouTube Clone Backend](https://youtube-backend-lovat.vercel.app)
 
-- **Project Demo Video:** [YouTube Clone Demo](https://www.loom.com/share/b52a99045a514292bfe97b32199f3706)
+- **Project Demo Video:** [YouTube Clone Demo](https://www.loom.com/share/6cefbf66a6ba42f2b8c9013b4f66ffcd?sid=23e0034f-38e8-497e-9d5e-91f7bb6b9cf8)
 
 ---
 
